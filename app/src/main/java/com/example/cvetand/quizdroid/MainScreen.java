@@ -2,6 +2,7 @@ package com.example.cvetand.quizdroid;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,7 @@ public class MainScreen extends ActionBarActivity {
 
 
         View.OnClickListener buttonListener = new View.OnClickListener() {
-            Intent intent = new Intent(MainScreen.this, TopicOverview.class);
+            Intent intent = new Intent(MainScreen.this, TopicQuestionAnswer.class);
             public void onClick(View v) {
                 QuizTopic topic;
                 switch (v.getId()) {
@@ -44,6 +45,7 @@ public class MainScreen extends ActionBarActivity {
                         break;
 
                 }
+                Log.i("MainScreen.java", "starting activity with " + intent.getSerializableExtra("topic").toString());
                 startActivity(intent);
             }
         };
@@ -53,6 +55,7 @@ public class MainScreen extends ActionBarActivity {
         findViewById(R.id.PhysicsText).setOnClickListener(buttonListener);
         findViewById(R.id.MarvelText).setOnClickListener(buttonListener);
         findViewById(R.id.FormulaText).setOnClickListener(buttonListener);
+        Log.i("MainScreen.java", "click listeners set");
 
     }
 

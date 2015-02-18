@@ -28,6 +28,10 @@
             android:name=".ResultsPage"
             android:label="@string/title_activity_results_page" >
         </activity>
+        <activity
+            android:name=".TopicQuestionAnswer"
+            android:label="@string/title_activity_topic_question_answer" >
+        </activity>
     </application>
 
 </manifest>
