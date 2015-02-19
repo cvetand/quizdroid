@@ -13,11 +13,15 @@ import android.widget.TextView;
 
 public class TopicOverviewFragment extends Fragment {
 
+    private QuizTopic topic;
     private TopicQuestionAnswer hostActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            topic = (QuizTopic) getArguments().getSerializable("topic");
+        }
     }
 
     @Override
@@ -26,8 +30,6 @@ public class TopicOverviewFragment extends Fragment {
 
         //insert fragment layout into container
         View view = inflater.inflate(R.layout.fragment_topic, container, false);
-        final QuizApp qa = (QuizApp) hostActivity.getApplicationContext();
-        final Topic topic = qa.getSelectedTopic();
 
         //gathers different text sections to be accessible and able to be modified
         TextView title = (TextView) view.findViewById(R.id.topicTitle);
@@ -35,8 +37,8 @@ public class TopicOverviewFragment extends Fragment {
         TextView questionCount = (TextView) view.findViewById(R.id.questionCount);
 
         //sets the text sections to display what the topic contains
-        title.setText(topic.getTitle());
-        description.setText(topic.getLongDescription());
+        title.setText(topic.getTopicName());
+        description.setText(topic.getDescription());
         questionCount.setText(topic.getQuestionCount() + " questions");
 
         //adds functionality to the begin button

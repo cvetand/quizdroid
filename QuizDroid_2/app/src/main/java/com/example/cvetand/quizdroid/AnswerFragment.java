@@ -4,6 +4,7 @@ package com.example.cvetand.quizdroid;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,18 @@ import android.widget.TextView;
 public class AnswerFragment extends Fragment {
 
     private TopicQuestionAnswer hostActivity;
-
+    private QuizTopic topic;
+    private QuizQuestion question;
+    private String selectedAnswer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            this.topic = (QuizTopic) getArguments().getSerializable("topic");
+            this.question = (QuizQuestion) getArguments().getSerializable("question");
+            this.selectedAnswer = getArguments().getString("selectedAnswer");
+        }
     }
 
     @Override
@@ -27,12 +34,9 @@ public class AnswerFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_answer, container, false);
-        final QuizApp qa = (QuizApp) hostActivity.getApplicationContext();
-        QuizQuestion question = qa.getSelectedTopic().getQuestion(qa.getCurrentQuestion());
 
-
-        if(qa.getIndexOfSelected() == question.getIndexOfAns()){
-            qa.setNumCorrect(qa.getNumCorrect()+1);
+        if (question.getCorrectAns().equals(selectedAnswer)){
+            topic.correctAnsGiven();
         }
 
         TextView questionField = (TextView) view.findViewById(R.id.questionField);
@@ -42,13 +46,13 @@ public class AnswerFragment extends Fragment {
         Button next = (Button) view.findViewById(R.id.nextButton);
 
         questionField.setText(question.getQuestion());
-        selection.setText(question.getAnswers()[qa.getIndexOfSelected()]);
-        correct.setText(question.getAnswers()[question.getIndexOfAns()]);
+        selection.setText(selectedAnswer);
+        correct.setText(question.getCorrectAns());
 
 
-        score.setText(qa.getNumCorrect() +" out of "+(qa.getCurrentQuestion()+1));
+        score.setText(topic.getCorrectAnswers() +" out of "+topic.getNextQuestionIndex());
         View.OnClickListener buttonListener;
-        if(qa.isTopicExhausted()){
+        if(!topic.moreQuestions()){
             next.setText("Finish");
             buttonListener = new View.OnClickListener(){
                 public void onClick(View v) {

@@ -1,40 +1,37 @@
 package com.example.cvetand.quizdroid;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by cvetand on 2/3/15.
  */
 public class QuizQuestion implements Serializable{
     private String question;
-    private ArrayList<String> answers;
-    private String correctAns;
-    private boolean visited;
+    private String[] answers;
+    private int indexOfAns;
 
-    public QuizQuestion(String question, ArrayList<String> answers){
-        this(question, answers, 0);
+    public QuizQuestion(String question, String[] answers, int indexOfAns){
+        setQuestion(question);
+        setAnswers(answers, indexOfAns);
+
     }
 
-    public QuizQuestion(String question, ArrayList<String> answers, int correctAns){
-        this.question = question;
+    public void setQuestion(String question){ this.question = question; }
+    public void setAnswers(String[] answers, int indexOfAns){
+        if(answers.length != 4){
+            throw new IllegalArgumentException("QuizQuestion needs exactly 4 answers");
+        }
         this.answers = answers;
-        this.correctAns = answers.get(correctAns);
-        this.visited = false;
-        Collections.shuffle(this.answers);
+        this.indexOfAns = indexOfAns;
     }
+
 
     public String getQuestion(){
         return question;
     }
-    public void visit(){ visited=true;}
-    public String getCorrectAns(){
-        return correctAns;
-    }
-
-    public ArrayList<String> getAnswers(){
-        return answers;
+    public String[] getAnswers(){ return answers; }
+    public int getIndexOfAns(){
+        return indexOfAns;
     }
 
 }

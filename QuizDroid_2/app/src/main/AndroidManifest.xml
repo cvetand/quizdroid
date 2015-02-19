@@ -6,8 +6,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".QuizApp">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainScreen"
             android:label="@string/app_name" >
@@ -17,14 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".TopicOverview"
+            android:label="@string/title_activity_topic_overview" >
+        </activity>
+        <activity
+            android:name=".QuestionPage"
+            android:label="@string/title_activity_question_page" >
+        </activity>
+        <activity
+            android:name=".ResultsPage"
+            android:label="@string/title_activity_results_page" >
+        </activity>
         <activity
             android:name=".TopicQuestionAnswer"
             android:label="@string/title_activity_topic_question_answer" >
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

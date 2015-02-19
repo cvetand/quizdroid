@@ -16,13 +16,14 @@ import android.widget.TextView;
 public class QuestionFragment extends Fragment {
 
     private TopicQuestionAnswer hostActivity;
-    //private QuizQuestion question;
-
-
+    private QuizQuestion question;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.question = (QuizQuestion) getArguments().getSerializable("question");
+        }
     }
 
     @Override
@@ -30,8 +31,6 @@ public class QuestionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_question, container, false);
-        final QuizApp qa = (QuizApp) hostActivity.getApplicationContext();
-        QuizQuestion question = qa.getSelectedTopic().getQuestion(qa.getCurrentQuestion());
 
         TextView questionField = (TextView) view.findViewById(R.id.questionField);
         questionField.setText(question.getQuestion());
@@ -53,23 +52,19 @@ public class QuestionFragment extends Fragment {
         r3.setOnClickListener(radioListener);
         r4.setOnClickListener(radioListener);
 
-        r1.setText(question.getAnswers()[0]);
-        r2.setText(question.getAnswers()[1]);
-        r3.setText(question.getAnswers()[2]);
-        r4.setText(question.getAnswers()[3]);
+        r1.setText(question.getAnswers().get(0));
+        r2.setText(question.getAnswers().get(1));
+        r3.setText(question.getAnswers().get(2));
+        r4.setText(question.getAnswers().get(3));
 
         //Button functionality to get the answer selected and launch ResultsPage with the topic and selected answer
         View.OnClickListener buttonListener = new View.OnClickListener() {
             public void onClick(View v) {
 
                 RadioGroup optionsGroup = (RadioGroup) view.findViewById(R.id.optionsGroup);
-
-                int selectedAns = optionsGroup.getCheckedRadioButtonId();
-                int selectedAnsIndex = optionsGroup.indexOfChild(optionsGroup.findViewById(selectedAns));
-                qa.setIndexOfSelected(selectedAnsIndex);
-
+                String selectedAnswer = ((RadioButton) optionsGroup.findViewById(optionsGroup.getCheckedRadioButtonId())).getText().toString();
                 Log.i("QuestionFragment", "submit button pressed");
-                hostActivity.showQuestionAnswer();
+                hostActivity.showQuestionAnswer(question, selectedAnswer);
 
             }
         };

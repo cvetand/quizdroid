@@ -9,28 +9,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Random;
-
 
 public class TopicQuestionAnswer extends ActionBarActivity {
 
-    private Topic topic;
-    private FragmentManager FM;
-    QuizApp qa;
-
+    private QuizTopic topic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_question_answer);
-        qa = (QuizApp) getApplicationContext();
 
-        topic = qa.getSelectedTopic();
+        //grabs the topic selected from the intent
+        topic = (QuizTopic) getIntent().getSerializableExtra("topic");
 
-        FM = getFragmentManager();
+
+        FragmentManager FM = getFragmentManager();
         FragmentTransaction FT = FM.beginTransaction();
         TopicOverviewFragment tof = new TopicOverviewFragment();
 
+        Bundle topicBundle = new Bundle();
+        topicBundle.putSerializable("topic", topic);
+
+        tof.setArguments(topicBundle);
         FT.add(R.id.FragContainer, tof);
         FT.commit();
     }
@@ -59,19 +59,31 @@ public class TopicQuestionAnswer extends ActionBarActivity {
     }
 
     public void nextQuestion(){
+        Log.i("TQA", "getting next Question and loading fragment");
+        QuizQuestion nextQuestion = topic.getQuestion();
+        FragmentManager FM = getFragmentManager();
         FragmentTransaction FT = FM.beginTransaction();
         QuestionFragment qf = new QuestionFragment();
 
-        qa.setCurrentQuestion(qa.getCurrentQuestion()+1);
+        Bundle questionBundle = new Bundle();
+        questionBundle.putSerializable("question", nextQuestion);
 
+        qf.setArguments(questionBundle);
         FT.replace(R.id.FragContainer, qf).addToBackStack("tag").commit();
     }
 
-    public void showQuestionAnswer(){
+    public void showQuestionAnswer(QuizQuestion question, String selectedAnswer){
         Log.i("showQuestionAnswer", "working so far");
+        FragmentManager FM = getFragmentManager();
         FragmentTransaction FT = FM.beginTransaction();
         AnswerFragment af = new AnswerFragment();
 
+        Bundle answerBundle = new Bundle();
+        answerBundle.putSerializable("topic", topic);
+        answerBundle.putSerializable("question", question);
+        answerBundle.putString("selectedAnswer", selectedAnswer);
+
+        af.setArguments(answerBundle);
         FT.replace(R.id.FragContainer, af);
         FT.commit();
     }
