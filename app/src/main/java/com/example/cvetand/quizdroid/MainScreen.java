@@ -94,6 +94,8 @@ public class MainScreen extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent prefActivity = new Intent(this, Preference.class);
+            startActivity(prefActivity);
             return true;
         }
 

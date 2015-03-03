@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Synchronization">
+        <EditTextPreference
+            android:title="Server URL"
+            android:summary="Location question repository is updated from"
+            android:key="url"
+            android:defaultValue="www.defaultURL.com"/>
+
+        <EditTextPreference
+            android:title="Refresh Interval"
+            android:summary="Interval to check Server URL for updates"
+            android:key="interval"
+            android:inputType="number"
+            android:defaultValue="15"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
